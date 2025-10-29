@@ -1,3 +1,4 @@
+// Test suite for complete user signup flow validation
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { SignupLoginPage } from '../pages/SignupLoginPage';
