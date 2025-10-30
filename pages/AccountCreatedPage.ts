@@ -16,7 +16,7 @@ export class AccountCreatedPage extends BasePage {
   }
 
   async verifyAccountCreatedMessageText(): Promise<void> {
-    await expect(this.accountCreatedMessage).toHaveText('ACCOUNT CREATED!');
+    await expect(this.accountCreatedMessage).toHaveText('Account Created!');
   }
 
   async verifyAccountCreatedPageOpened(): Promise<void> {

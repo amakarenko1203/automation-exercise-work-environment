@@ -27,7 +27,7 @@ export class AccountInformationPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = page.locator('h2.title.text-center b');
+    this.pageHeading = page.locator('h2.title.text-center').first();
     this.titleMrRadio = page.locator('#id_gender1');
     this.titleMrsRadio = page.locator('#id_gender2');
     this.nameInput = page.locator('input[data-qa="name"]');
@@ -56,7 +56,7 @@ export class AccountInformationPage extends BasePage {
   }
 
   async verifyPageHeadingText(): Promise<void> {
-    await expect(this.pageHeading).toHaveText('ENTER ACCOUNT INFORMATION');
+    await expect(this.pageHeading).toHaveText('Enter Account Information');
   }
 
   async verifyAccountInformationPageOpened(): Promise<void> {
