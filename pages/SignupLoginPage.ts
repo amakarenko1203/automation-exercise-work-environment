@@ -81,6 +81,16 @@ export class SignupLoginPage extends BasePage {
     await this.loginButton.click();
   }
 
+  async fillLoginForm(email: string, password: string): Promise<void> {
+    await this.fillLoginEmail(email);
+    await this.fillLoginPassword(password);
+  }
+
+  async verifyLoginFieldsAcceptInput(email: string, password: string): Promise<void> {
+    await expect(this.loginEmailField).toHaveValue(email);
+    await expect(this.loginPasswordField).toHaveValue(password);
+  }
+
   async isLoginErrorMessageVisible(): Promise<void> {
     await expect(this.loginErrorMessage).toBeVisible();
   }
