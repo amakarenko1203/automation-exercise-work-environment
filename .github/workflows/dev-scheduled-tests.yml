@@ -1,0 +1,60 @@
+name: Dev - Scheduled Test Run
+
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  NODE_VERSION: '18.x'
+
+jobs:
+  test-dev:
+    name: Run Tests on Dev Environment
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          baseURL: https://automationexercise.com
+          CI: true
+        continue-on-error: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev-test-results
+          path: test-results/
+          retention-days: 30
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev-playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Test Summary
+        if: always()
+        run: |
+          echo "## Dev Environment Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "Test run completed for dev environment" >> $GITHUB_STEP_SUMMARY
